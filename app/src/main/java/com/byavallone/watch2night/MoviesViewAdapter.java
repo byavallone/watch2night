@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +21,10 @@ public class MoviesViewAdapter extends RecyclerView.Adapter<MoviesViewAdapter.Vi
     //TODO click listener
     private LayoutInflater mInflater;
     private List<Movies> mMoviesList;
+    private Context mContext;
 
     MoviesViewAdapter(Context context, ArrayList<Movies> list){
+        mContext = context;
         mInflater = LayoutInflater.from(context);
         mMoviesList = list;
     }
@@ -35,7 +39,8 @@ public class MoviesViewAdapter extends RecyclerView.Adapter<MoviesViewAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        //TODO getOneItemPoster and set on the VIEW
+        Movies moviesItem = mMoviesList.get(position);
+        Picasso.with(mContext).load(moviesItem.getPosterUrl()).into(viewHolder.mPosterView);
     }
 
     @Override
