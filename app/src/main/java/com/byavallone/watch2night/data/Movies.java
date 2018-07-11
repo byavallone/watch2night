@@ -1,4 +1,4 @@
-package com.byavallone.watch2night;
+package com.byavallone.watch2night.data;
 
 /**
  * Classe used to hold the object movie and the information
@@ -9,14 +9,24 @@ public class Movies {
     private String mTitle;
     private String mReleaseDate;
     private String mPosterUrl;
+    private String mBackgroundUrl;
     //TODO Fix this value
     private String mVoteAverage;
     private String mSynopsis;
 
-    Movies(String title, String releaseDate, String posterUrl, String voteAverage, String synopsis){
+    /**
+     * Contructor
+     * @param title
+     * @param releaseDate
+     * @param posterUrl
+     * @param voteAverage
+     * @param synopsis
+     */
+    Movies(String title, String releaseDate, String posterUrl, String backgroudUrl, String voteAverage, String synopsis){
         mTitle = title;
         mReleaseDate = releaseDate;
         mPosterUrl = posterUrl;
+        mBackgroundUrl = backgroudUrl;
         mVoteAverage = voteAverage;
         mSynopsis = synopsis;
     }
@@ -37,12 +47,18 @@ public class Movies {
         return mReleaseDate;
     }
     /**
-     * Method used to get the String that hold the URL for the poster
+     * Method used to get the URL for the poster
      * @return
      */
     public String getPosterUrl(){
         return mPosterUrl;
     }
+
+    /**
+     * Method used to get the background URL
+     * @return
+     */
+    public String getBackgroundUrl(){return mBackgroundUrl;}
 
     /**
      * Method used to get the VoteAverage
