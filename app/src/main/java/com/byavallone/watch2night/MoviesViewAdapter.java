@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.byavallone.watch2night.data.Movies;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,15 +18,15 @@ import java.util.List;
  */
 public class MoviesViewAdapter extends RecyclerView.Adapter<MoviesViewAdapter.ViewHolder>{
 
-    //TODO click listener
     private LayoutInflater mInflater;
     private List<Movies> mMoviesList;
     private Context mContext;
+    private ItemClickListener mClickListener;
 
-    MoviesViewAdapter(Context context, ArrayList<Movies> list){
+    MoviesViewAdapter(Context context, List<Movies> moviesList){
         mContext = context;
+        mMoviesList = moviesList;
         mInflater = LayoutInflater.from(context);
-        mMoviesList = list;
     }
 
     @NonNull
@@ -43,22 +43,55 @@ public class MoviesViewAdapter extends RecyclerView.Adapter<MoviesViewAdapter.Vi
         Picasso.with(mContext).load(moviesItem.getPosterUrl()).into(viewHolder.mPosterView);
     }
 
+    /**
+     * Method used to get the item in position
+     * @param position
+     * @return
+     */
+    public Movies getItemInPosition(int position){
+        return mMoviesList.get(position);
+    }
+
     @Override
     public int getItemCount() {
         return mMoviesList.size();
     }
 
     /**
+     * Method used to update the list on the adapter
+     * @param moviesList
+     */
+    public void setMovies(List<Movies> moviesList){
+        mMoviesList = moviesList;
+    }
+
+    /**
      * View Holder class used to store and recycles the grid item
      */
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView mPosterView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mPosterView = (ImageView) itemView.findViewById(R.id.movie_item_poster);
-
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            if(mClickListener!= null){
+                mClickListener.onItemClick(view, getAdapterPosition());
+            }
+        }
+    }
+
+    void setClickListener(ItemClickListener itemClickListener){
+        mClickListener = itemClickListener;
+    }
+
+    //Need to implement this method on the parent activity
+    public interface ItemClickListener{
+        void onItemClick(View view, int position);
     }
 }
