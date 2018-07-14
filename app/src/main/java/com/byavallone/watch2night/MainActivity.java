@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
@@ -15,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 
@@ -23,7 +25,7 @@ import com.byavallone.watch2night.data.MoviesAsyncLoader;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MoviesViewAdapter.ItemClickListener, LoaderManager.LoaderCallbacks<List<Movies>>{
+public class MainActivity extends AppCompatActivity implements MoviesViewAdapter.ItemClickListener, LoaderManager.LoaderCallbacks<List<Movies>>, Preference.OnPreferenceChangeListener{
 
     //Holds the Adapter instance
     private MoviesViewAdapter mAdapter;
@@ -33,7 +35,8 @@ public class MainActivity extends AppCompatActivity implements MoviesViewAdapter
     private ScrollView mContentView;
 
     private ProgressBar mLoadingBarView;
-    //TODO Fix the number of columns when in landscape
+
+    private LinearLayout mWarningView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,23 +50,21 @@ public class MainActivity extends AppCompatActivity implements MoviesViewAdapter
 
         mContentView = (ScrollView) findViewById(R.id.grid_scroll_view);
 
+        mWarningView = (LinearLayout) findViewById(R.id.warning_layout);
+
         //Setting GridLayout manager for the recyclerView
-        mGridView.setLayoutManager(new GridLayoutManager(MainActivity.this, 3));
+        mGridView.setLayoutManager(new GridLayoutManager(MainActivity.this, getResources().getInteger(R.integer.column_number)));
 
         if(deviceIsConnected(MainActivity.this)) {
             mContentView.setVisibility(View.GONE);
             mLoadingBarView.setVisibility(View.VISIBLE);
-            //TODO Hide warning layout
-            LoaderManager loader = LoaderManager.getInstance(MainActivity.this);
-            loader.initLoader(1, null, MainActivity.this).forceLoad();
+            mWarningView.setVisibility(View.GONE);
+            getSupportLoaderManager().initLoader(1, null, MainActivity.this).forceLoad();
 
         }else{
-            //TODO Show network issue message
+            mWarningView.setVisibility(View.VISIBLE);
+            //TODO set the empty view message
         }
-
-        //TODO show the loader and the empty view
-
-
     }
 
 
@@ -71,10 +72,11 @@ public class MainActivity extends AppCompatActivity implements MoviesViewAdapter
     public void onItemClick(View view, int position) {
         Movies movie = mAdapter.getItemInPosition(position);
         Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-        intent.putExtra("title", movie.getTitle());
-        intent.putExtra("release_date", movie.getReleaseDate());
-        intent.putExtra("background_url", movie.getBackgroundUrl());
-        intent.putExtra("synopsis", movie.getSynopsis());
+        intent.putExtra(getString(R.string.intent_title), movie.getTitle());
+        intent.putExtra(getString(R.string.intent_release_date), movie.getReleaseDate());
+        intent.putExtra(getString(R.string.intent_vote_average), movie.getVoteAverage());
+        intent.putExtra(getString(R.string.intent_background_url), movie.getBackgroundUrl());
+        intent.putExtra(getString(R.string.intent_synopsis), movie.getSynopsis());
         startActivity(intent);
     }
 
@@ -88,10 +90,12 @@ public class MainActivity extends AppCompatActivity implements MoviesViewAdapter
     public void onLoadFinished(@NonNull Loader<List<Movies>> loader, List<Movies> movies) {
 
         mLoadingBarView.setVisibility(View.GONE);
-        //TODO remove the empty view
         if(movies != null && !movies.isEmpty()){
+
+            mWarningView.setVisibility(View.GONE);
+            mContentView.setVisibility(View.VISIBLE);
+
             if(mAdapter == null){
-                mContentView.setVisibility(View.VISIBLE);
                 mAdapter = new MoviesViewAdapter(MainActivity.this, movies);
                 //Setting this activity to the click listener on the adapter
                 mAdapter.setClickListener(this);
@@ -99,6 +103,9 @@ public class MainActivity extends AppCompatActivity implements MoviesViewAdapter
             }else{
                 mAdapter.setMovies(movies);
             }
+        }else{
+            mWarningView.setVisibility(View.VISIBLE);
+            //TODO empty view
         }
 
     }
@@ -138,5 +145,12 @@ public class MainActivity extends AppCompatActivity implements MoviesViewAdapter
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
         return isConnected;
+    }
+
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object value) {
+
+        getSupportLoaderManager().initLoader(1, null, MainActivity.this).forceLoad();
+        return true;
     }
 }

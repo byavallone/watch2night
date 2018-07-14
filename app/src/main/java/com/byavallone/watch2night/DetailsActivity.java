@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+/**
+ * Class used to diplay all the details of a selected movie
+ */
 public class DetailsActivity extends AppCompatActivity {
 
     @Override
@@ -15,38 +18,46 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        TextView titleView = (TextView) findViewById(R.id.details_title);
-        TextView releaseDateView = (TextView) findViewById(R.id.details_release_date);
-        TextView synopsisView = (TextView) findViewById(R.id.details_synopsis);
-        ImageView posterView = (ImageView) findViewById(R.id.details_poster);
+        //mapping UI
+        TextView titleView = findViewById(R.id.details_title);
+        TextView releaseDateView = findViewById(R.id.details_release_date);
+        TextView voteAverageView = findViewById(R.id.details_vote_average);
+        TextView synopsisView = findViewById(R.id.details_synopsis);
+        ImageView posterView = findViewById(R.id.details_poster);
 
         String title = "";
         String release_date ="";
+        String vote_average ="";
         String backgroundUrl ="";
         String synopsis = "";
 
         //Retrieve all data sent though Intent
         Intent intent = getIntent();
 
-        if(intent.hasExtra("title")){
-            title = intent.getStringExtra("title");
+        if(intent.hasExtra(getString(R.string.intent_title))){
+            title = intent.getStringExtra(getString(R.string.intent_title));
         }
 
-        if(intent.hasExtra("release_date")){
-            release_date = intent.getStringExtra("release_date");
+        if(intent.hasExtra(getString(R.string.intent_release_date))){
+            release_date = intent.getStringExtra(getString(R.string.intent_release_date));
         }
 
-        if(intent.hasExtra("background_url")){
-            backgroundUrl = intent.getStringExtra("background_url");
+        if(intent.hasExtra(getString(R.string.intent_vote_average))){
+            vote_average = intent.getStringExtra(getString(R.string.intent_vote_average));
         }
 
-        if(intent.hasExtra("synopsis")){
-            synopsis = intent.getStringExtra("synopsis");
+        if(intent.hasExtra(getString(R.string.intent_background_url))){
+            backgroundUrl = intent.getStringExtra(getString(R.string.intent_background_url));
         }
 
-        //TODO get the background image
+        if(intent.hasExtra(getString(R.string.intent_synopsis))){
+            synopsis = intent.getStringExtra(getString(R.string.intent_synopsis));
+        }
+
+        //Setting all UI components with values restored
         Picasso.with(DetailsActivity.this).load(backgroundUrl).into(posterView);
         titleView.setText(title);
+        voteAverageView.setText(vote_average);
         releaseDateView.setText(release_date);
         synopsisView.setText(synopsis);
     }

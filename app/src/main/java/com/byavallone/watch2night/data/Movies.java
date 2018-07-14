@@ -10,7 +10,6 @@ public class Movies {
     private String mReleaseDate;
     private String mPosterUrl;
     private String mBackgroundUrl;
-    //TODO Fix this value
     private String mVoteAverage;
     private String mSynopsis;
 

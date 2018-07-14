@@ -7,4 +7,9 @@
     <string name="sort_highest_rate_index" translatable="false">1</string>
     <string name="sort_most_popular_label">Most popular</string>
     <string name="sort_highest_rate_label">Highest rate</string>
+    <string name="intent_title">title</string>
+    <string name="intent_release_date">release_date</string>
+    <string name="intent_vote_average">vote_average</string>
+    <string name="intent_background_url">background_url</string>
+    <string name="intent_synopsis">synopsis</string>
 </resources>
