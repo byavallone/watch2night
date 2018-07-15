@@ -8,4 +8,7 @@
         android:entries="@array/Sort"
         android:entryValues="@array/SortPreference"/>
 
+    <Preference
+        android:layout="@layout/content_atribution"/>
+
 </PreferenceScreen>
