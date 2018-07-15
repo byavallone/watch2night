@@ -41,7 +41,7 @@ public class SettingsActivity extends AppCompatActivity {
         public boolean onPreferenceChange(Preference preference, Object value) {
 
             String index = String.valueOf(value.toString());
-            String summary = "";
+            String summary;
             // checking the proper value to update in the summary
             if(index.equalsIgnoreCase(getString(R.string.sort_most_popular_index))){
                 summary = getString(R.string.sort_most_popular_label);

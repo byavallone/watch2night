@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 /**
- * Adapter class reponsable for the main grid
+ * Adapter class responsible for the main grid
  */
 public class MoviesViewAdapter extends RecyclerView.Adapter<MoviesViewAdapter.ViewHolder>{
 
@@ -74,7 +74,7 @@ public class MoviesViewAdapter extends RecyclerView.Adapter<MoviesViewAdapter.Vi
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mPosterView = (ImageView) itemView.findViewById(R.id.movie_item_poster);
+            mPosterView = itemView.findViewById(R.id.movie_item_poster);
             itemView.setOnClickListener(this);
         }
 

@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 /**
- * Class used to diplay all the details of a selected movie
+ * Class used to display all the details of a selected movie
  */
 public class DetailsActivity extends AppCompatActivity {
 

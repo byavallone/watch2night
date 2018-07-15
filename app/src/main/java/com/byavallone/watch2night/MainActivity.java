@@ -16,9 +16,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.byavallone.watch2night.data.Movies;
 import com.byavallone.watch2night.data.MoviesAsyncLoader;
@@ -38,19 +40,27 @@ public class MainActivity extends AppCompatActivity implements MoviesViewAdapter
 
     private LinearLayout mWarningView;
 
+    private TextView mWarningMessageView;
+
+    private ImageView mWarningImageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //Mapping the main Grid
-        mGridView = (RecyclerView) findViewById(R.id.main_gridview);
+        mGridView = findViewById(R.id.main_gridview);
 
-        mLoadingBarView = (ProgressBar) findViewById(R.id.loading_bar);
+        mLoadingBarView = findViewById(R.id.loading_bar);
 
-        mContentView = (ScrollView) findViewById(R.id.grid_scroll_view);
+        mContentView = findViewById(R.id.grid_scroll_view);
 
-        mWarningView = (LinearLayout) findViewById(R.id.warning_layout);
+        mWarningView = findViewById(R.id.warning_layout);
+
+        mWarningMessageView = findViewById(R.id.warning_message);
+
+        mWarningImageView = findViewById(R.id.warning_icon);
 
         //Setting GridLayout manager for the recyclerView
         mGridView.setLayoutManager(new GridLayoutManager(MainActivity.this, getResources().getInteger(R.integer.column_number)));
@@ -63,7 +73,9 @@ public class MainActivity extends AppCompatActivity implements MoviesViewAdapter
 
         }else{
             mWarningView.setVisibility(View.VISIBLE);
-            //TODO set the empty view message
+            mLoadingBarView.setVisibility(View.GONE);
+            mWarningImageView.setImageResource(android.R.drawable.stat_notify_error);
+            mWarningMessageView.setText(R.string.warning_no_internet);
         }
     }
 
@@ -89,9 +101,11 @@ public class MainActivity extends AppCompatActivity implements MoviesViewAdapter
     @Override
     public void onLoadFinished(@NonNull Loader<List<Movies>> loader, List<Movies> movies) {
 
+        //Hide the loading
         mLoadingBarView.setVisibility(View.GONE);
+        //checking if we have a list of movies and if the list is not empty
         if(movies != null && !movies.isEmpty()){
-
+            //Hide the warning UI and show the content UI
             mWarningView.setVisibility(View.GONE);
             mContentView.setVisibility(View.VISIBLE);
 
@@ -104,8 +118,10 @@ public class MainActivity extends AppCompatActivity implements MoviesViewAdapter
                 mAdapter.setMovies(movies);
             }
         }else{
+            //In case the list is null or empty we show a no suggestion message
             mWarningView.setVisibility(View.VISIBLE);
-            //TODO empty view
+            mWarningImageView.setImageResource(android.R.drawable.presence_video_online);
+            mWarningMessageView.setText(R.string.warning_no_suggestion);
         }
 
     }
@@ -133,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements MoviesViewAdapter
     }
 
     /**
-     * MEthod used to check if the device has internet connection
+     * Method used to check if the device has internet connection
      * @param context
      * @return
      */

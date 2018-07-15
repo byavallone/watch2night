@@ -6,7 +6,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.AsyncTaskLoader;
-import android.util.Log;
 
 import com.byavallone.watch2night.MoviesViewAdapter;
 import com.byavallone.watch2night.R;
@@ -41,8 +40,6 @@ public class MoviesAsyncLoader extends AsyncTaskLoader<List<Movies>> {
         if(url != null){
             try {
                 result = NetworkUtils.makeHttpRequest(url);
-                //TODO making unnecessary requests
-                Log.d(TAG, ">>>>>>>HTTP request");
             } catch (IOException e) {
                 e.printStackTrace();
             }

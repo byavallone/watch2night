@@ -40,12 +40,17 @@
             android:id="@+id/warning_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/warning_icon_content_description"
             android:src="@android:drawable/presence_video_online"/>
 
         <TextView
             android:id="@+id/warning_message"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textStyle="italic"
+            android:paddingTop="5dp"
+            android:textSize="18sp"/>
 
     </LinearLayout>
 

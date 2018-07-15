@@ -1,7 +1,7 @@
 package com.byavallone.watch2night.data;
 
 /**
- * Classe used to hold the object movie and the information
+ * Class used to hold the object movie and the information
  */
 public class Movies {
 
@@ -14,18 +14,18 @@ public class Movies {
     private String mSynopsis;
 
     /**
-     * Contructor
+     * Constructor
      * @param title
      * @param releaseDate
      * @param posterUrl
      * @param voteAverage
      * @param synopsis
      */
-    Movies(String title, String releaseDate, String posterUrl, String backgroudUrl, String voteAverage, String synopsis){
+    Movies(String title, String releaseDate, String posterUrl, String backgroundUrl, String voteAverage, String synopsis){
         mTitle = title;
         mReleaseDate = releaseDate;
         mPosterUrl = posterUrl;
-        mBackgroundUrl = backgroudUrl;
+        mBackgroundUrl = backgroundUrl;
         mVoteAverage = voteAverage;
         mSynopsis = synopsis;
     }

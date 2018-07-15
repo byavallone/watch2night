@@ -12,4 +12,8 @@
     <string name="intent_vote_average">vote_average</string>
     <string name="intent_background_url">background_url</string>
     <string name="intent_synopsis">synopsis</string>
+    <string name="warning_no_suggestion">No Suggestion available</string>
+    <string name="warning_no_internet">No Internet Connection</string>
+    <string name="warning_icon_content_description">warning icon</string>
+    <string name="movie_poster_content_descriptor">Movie poster</string>
 </resources>

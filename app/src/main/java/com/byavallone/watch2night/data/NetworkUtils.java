@@ -45,10 +45,9 @@ public class NetworkUtils {
     // String that holds the parameter for the sort type
     final static String API_SORT_BY_PARAM = "sort_by";
     // String that holds the value for the sort by parameter
-    final static String API_SORT_BY_AVERATE = "vote_average.asc";
-
-    //TODO REMOVE BEFORE COMMIT
-    private final static String API_KEY = "67ef283c105b7bd6a4dcef20d2cc1bc2";
+    final static String API_SORT_BY_AVERAGE = "vote_average.asc";
+    // TODO ADD KEY
+    private final static String API_KEY = "";
 
     /**
      * Returns new URL object from the given string URL.
