@@ -2,10 +2,11 @@ package com.byavallone.watch2night;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
@@ -27,7 +28,7 @@ import com.byavallone.watch2night.data.MoviesAsyncLoader;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MoviesViewAdapter.ItemClickListener, LoaderManager.LoaderCallbacks<List<Movies>>, Preference.OnPreferenceChangeListener{
+public class MainActivity extends AppCompatActivity implements MoviesViewAdapter.ItemClickListener, LoaderManager.LoaderCallbacks<List<Movies>>, SharedPreferences.OnSharedPreferenceChangeListener {
 
     //Holds the Adapter instance
     private MoviesViewAdapter mAdapter;
@@ -77,6 +78,8 @@ public class MainActivity extends AppCompatActivity implements MoviesViewAdapter
             mWarningImageView.setImageResource(android.R.drawable.stat_notify_error);
             mWarningMessageView.setText(R.string.warning_no_internet);
         }
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        sharedPrefs.registerOnSharedPreferenceChangeListener(MainActivity.this);
     }
 
 
@@ -115,7 +118,9 @@ public class MainActivity extends AppCompatActivity implements MoviesViewAdapter
                 mAdapter.setClickListener(this);
                 mGridView.setAdapter(mAdapter);
             }else{
+
                 mAdapter.setMovies(movies);
+                mAdapter.notifyDataSetChanged();
             }
         }else{
             //In case the list is null or empty we show a no suggestion message
@@ -164,9 +169,10 @@ public class MainActivity extends AppCompatActivity implements MoviesViewAdapter
     }
 
     @Override
-    public boolean onPreferenceChange(Preference preference, Object value) {
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
-        getSupportLoaderManager().initLoader(1, null, MainActivity.this).forceLoad();
-        return true;
+        if(key.equalsIgnoreCase(getString(R.string.settings_sort_key))){
+            getSupportLoaderManager().initLoader(1, null, MainActivity.this).forceLoad();
+        }
     }
 }
